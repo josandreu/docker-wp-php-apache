@@ -23,7 +23,7 @@
 
 ### Puesta en marcha
 
-1. ```git clone git@bitbucket.org:flat101team/docker-compose-wordpress-php-apache-pma.git```
+1. ```git clone git@github.com:josandreu/docker-wp-php-apache.git```
 2. ```cd docker/config/```
 3. ```mkdir ssl && cd ssl```
 4. `mkcert -install nombre-dominio-proyecto`
