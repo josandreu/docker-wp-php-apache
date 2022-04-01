@@ -21,6 +21,9 @@ services:
       WORDPRESS_DB_PASSWORD: "${DB_ROOT_PASSWORD}"
       WORDPRESS_DEBUG: "${WORDPRESS_DEBUG}"
       XDEBUG_CONFIG: "remote_host=${XDEBUG_REMOTE_HOST} idekey=${XDEBUG_IDEKEY} remote_autostart=1 remote_connect_back=0 remote_enable=1 remote_handler=dbgp remote_mode=req remote_port=9009"
+      WORDPRESS_CONFIG_EXTRA:
+        define( 'WP_REDIS_HOST', 'redis' );
+        define( 'WP_REDIS_PORT', 6379 );
     depends_on:
       - db
     networks:
@@ -80,8 +83,28 @@ services:
     networks:
       - wordpress
 
+  redis:
+    image: redis:latest
+    restart: always
+    expose:
+      - 6379
+    command:
+      - redis-server
+      - --save 60 1
+      - --loglevel warning
+      - --maxmemory 128mb
+      - --maxmemory-policy allkeys-lru
+    volumes:
+      - ${DOCKER_PATH}/redis:/var/lib/redis
+      - ${DOCKER_PATH}/redis:/data
+      #- ./redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - wordpress
+
 volumes:
-  db_data:
+  db:
+  redis:
+  wp:
 
 networks:
   wordpress:
