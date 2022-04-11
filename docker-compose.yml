@@ -101,11 +101,6 @@ services:
     networks:
       - wordpress
 
-volumes:
-  db:
-  redis:
-  wp:
-
 networks:
   wordpress:
     name: wp-wordpress
